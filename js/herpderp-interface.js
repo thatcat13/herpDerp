@@ -11,9 +11,9 @@ $(document).ready(function(){
     var simpleCalculator = new Calculator("string");
     //need to create a Calculator object here so that the herpDerp **method** can be called on it
     var output = simpleCalculator.herpDerp(inputNum);
-    //passed inputNum variable into herpDerp method to return an array that's stored in output variable   
+    //passed inputNum variable into herpDerp method to return an array that's stored in output variable
     output.forEach(function(element){
-      $('#solution').append('<li>' + element + '</li>')
+      $('#solution').append('<li>' + element + '</li>');
     });
   });
 });
