@@ -20,6 +20,7 @@ $(document).ready(function(){
   $("#add").click(function(){
   var number1 = parseInt($('#number1').val());
   var number2 = parseInt($('#number2').val());
+  //without parseInt the output would be concatinated numbers instead
   var thing = new Calculator("string");
   var answer = thing.addThings(number1, number2);
   console.log(answer);
