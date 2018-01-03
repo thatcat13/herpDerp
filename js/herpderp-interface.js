@@ -54,3 +54,5 @@ $(document).ready(function(){
   });
 
 });//document ready
+
+//"test": "echo \"Error: no test specified\" && exit 1"
