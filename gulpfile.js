@@ -44,10 +44,11 @@ gulp.task('concatInterface', function(){
 
 //BROWSERIFY TASK
 //adding tasks will call functions
-gulp.task('jsBrowserify', function(){
-  return browserify({ entries: ['./js/herpderp-interface.js']})
+gulp.task('jsBrowserify', ['concatInterface'], function(){
+  return browserify({ entries: ['./tmp/allConcat.js']})
 //here the browserify function is called and intructed which files to browserify by passing in an object with a key 'entries'; its corresponding value is an array of file names
 //pulling in front-end only, not backend because backend was taken care of by the require keyword in -interface file
+//tmp b/c allConcat.js isn't used in the browser
   .bundle()
 //bundle is a process built into browserify pkg
   .pipe(source('app.js'))

@@ -21,6 +21,27 @@ Calculator.prototype.herpDerp = function(goal){
   return output;
 };
 
+//CALCULATOR METHODS
+Calculator.prototype.addThings = function(a,b){
+  return a + b;
+
+};
+
+Calculator.prototype.subtractThings = function(a,b){
+  return a - b;
+
+};
+
+Calculator.prototype.multiplyThings = function(a,b){
+  return a * b;
+
+};
+
+Calculator.prototype.divideThings = function(a,b){
+  return a / b;
+
+};
+
 exports.calculatorModule = Calculator;
 //this is how you store the Calculator declaration into a module
 //property added to empty export object named 'calculatorModule' with Calculator value assigned to it

@@ -22,6 +22,27 @@ Calculator.prototype.herpDerp = function(goal){
   return output;
 };
 
+//CALCULATOR METHODS
+Calculator.prototype.addThings = function(a,b){
+  return a + b;
+
+};
+
+Calculator.prototype.subtractThings = function(a,b){
+  return a - b;
+
+};
+
+Calculator.prototype.multiplyThings = function(a,b){
+  return a * b;
+
+};
+
+Calculator.prototype.divideThings = function(a,b){
+  return a / b;
+
+};
+
 exports.calculatorModule = Calculator;
 //this is how you store the Calculator declaration into a module
 //property added to empty export object named 'calculatorModule' with Calculator value assigned to it
@@ -46,6 +67,51 @@ $(document).ready(function(){
     output.forEach(function(element){
       $('#solution').append('<li>' + element + '</li>');
     });
+  });
+
+  $("#add").click(function(){
+  var number1 = parseInt($('#number1').val());
+  var number2 = parseInt($('#number2').val());
+  var thing = new Calculator("string");
+  var answer = thing.addThings(number1, number2);
+  console.log(answer);
+  $('.solution').append(answer);
+  });
+
+  $("#subtract").click(function(){
+    var number1 = $('#number1').val();
+    var number2 = $('#number2').val();
+    var thing = new Calculator("string");
+    var answer = thing.subtractThings(number1, number2);
+    console.log(answer);
+    $('.solution').append(answer);
+  });
+
+  $("#multiply").click(function(){
+    var number1 = $('#number1').val();
+    var number2 = $('#number2').val();
+    var thing = new Calculator("string");
+    var answer = thing.multiplyThings(number1, number2);
+    console.log(answer);
+    $('.solution').append(answer);
+  });
+
+  $("#divide").click(function(){
+    var number1 = $('#number1').val();
+    var number2 = $('#number2').val();
+    var thing = new Calculator("string");
+    var answer = thing.divideThings(number1, number2);
+    $('.solution').append(answer);
+  });
+});//document ready
+
+$(document).ready(function(){
+  $('#signup').submit(function(event){
+    console.log('i been clicked!');
+    event.preventDefault();
+    var email = $('#email').val();
+    $('#signup').hide();
+    $('#solution').prepend('<p>Thank you, ' + email + ' has been added to our list!</p>');
   });
 });
 
