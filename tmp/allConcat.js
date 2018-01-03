@@ -15,7 +15,7 @@ $(document).ready(function(){
     output.forEach(function(element){
       $('#solution').append('<li>' + element + '</li>');
     });
-  });
+  });//submit
 
   $("#add").click(function(){
   var number1 = parseInt($('#number1').val());
@@ -23,7 +23,7 @@ $(document).ready(function(){
   var thing = new Calculator("string");
   var answer = thing.addThings(number1, number2);
   console.log(answer);
-  $('.solution').append(answer);
+  $('#solution2').append(answer);
   });
 
   $("#subtract").click(function(){
@@ -32,7 +32,7 @@ $(document).ready(function(){
     var thing = new Calculator("string");
     var answer = thing.subtractThings(number1, number2);
     console.log(answer);
-    $('.solution').append(answer);
+    $('#solution2').append(answer);
   });
 
   $("#multiply").click(function(){
@@ -41,7 +41,7 @@ $(document).ready(function(){
     var thing = new Calculator("string");
     var answer = thing.multiplyThings(number1, number2);
     console.log(answer);
-    $('.solution').append(answer);
+    $('#solution2').append(answer);
   });
 
   $("#divide").click(function(){
@@ -49,13 +49,14 @@ $(document).ready(function(){
     var number2 = $('#number2').val();
     var thing = new Calculator("string");
     var answer = thing.divideThings(number1, number2);
-    $('.solution').append(answer);
+    console.log(answer);
+    $('#solution2').append(answer);
   });
+
 });//document ready
 
 $(document).ready(function(){
   $('#signup').submit(function(event){
-    console.log('i been clicked!');
     event.preventDefault();
     var email = $('#email').val();
     $('#signup').hide();

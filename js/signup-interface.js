@@ -1,6 +1,5 @@
 $(document).ready(function(){
   $('#signup').submit(function(event){
-    console.log('i been clicked!');
     event.preventDefault();
     var email = $('#email').val();
     $('#signup').hide();

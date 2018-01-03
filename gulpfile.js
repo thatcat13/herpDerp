@@ -11,12 +11,15 @@ var del = require('del');
 var jshint = require('gulp-jshint');
 var buildProduction = utilities.env.production;
 //buildProduction is an environment variable
+//indicates which environment is being used (dev or production)
+//$ gulp build --production: sets var to true, thus production build
+//$gulp build: sets var to false, thus development build
 
 //CLEAN TASK
 gulp.task('clean', function(){
   return del(['build', 'tmp']);
 });
-//pass del an array of paths to delete and it removes them
+//pass del function an array of paths to delete and it removes them
 //clean task is called automatically by making it a dependency of the build task
 
 //BUILD TASK
@@ -27,8 +30,7 @@ gulp.task('build', ['clean'], function(){
     gulp.start('jsBrowserify')
   }
 });
-//when running $ gulp build --production: sets the environment variable to true and its a production build
-//when running  $ gulp build: sets variable to false and makes it a development build
+//will make a fresh folder of the newest files to work with
 
 //CONCAT TASK
 gulp.task('concatInterface', function(){
