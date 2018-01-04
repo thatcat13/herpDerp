@@ -16,7 +16,7 @@ var buildProduction = utilities.env.production;
 //indicates which environment is being used (dev or production)
 //$ gulp build --production: sets var to true, thus production build
 //$gulp build: sets var to false, thus development build
-var lib = require('bower-files')();
+var lib = require('bower-files')({
   "overrides":{
     "bootstrap" : {
       "main": [
@@ -32,7 +32,7 @@ var lib = require('bower-files')();
 
 var browserSync = require('browser-sync').create();
 //create function part of the browser-sync pkg, used to create our server
-
+var babelify = require('babelify');
 
 
 
@@ -126,6 +126,9 @@ gulp.task('jsBrowserify', ['concatInterface'], function(){
 //here the browserify function is called and intructed which files to browserify by passing in an object with a key 'entries'; its corresponding value is an array of file names
 //pulling in front-end only, not backend because backend was taken care of by the require keyword in -interface file
 //tmp b/c allConcat.js isn't used in the browser
+  .transform(babelify.configure({
+    presets: ["es2015"]
+  }))
   .bundle()
 //bundle is a process built into browserify pkg
   .pipe(source('app.js'))
