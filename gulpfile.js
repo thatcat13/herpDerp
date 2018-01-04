@@ -1,3 +1,5 @@
+// Note: As you structure your gulpfile, it's very important to be aware of task dependencies. By default, gulp runs all tasks simultaneously. So you must use dependency arrays to specify if a task must be completed before another one. For example, in our jsBuild task, we know that jsBrowserify and jshint will both be completed before the browser reloads because they are listed in the array of dependencies. But there is no guarantee that jshint will be completed before or after jsBrowserify. If we needed the linter to finish before jsBrowserify was started, it would need to be listed as a dependency of jsBrowserify.
+
 
 //REQUIRE STATEMENTS
 var gulp = require('gulp');
@@ -14,6 +16,76 @@ var buildProduction = utilities.env.production;
 //indicates which environment is being used (dev or production)
 //$ gulp build --production: sets var to true, thus production build
 //$gulp build: sets var to false, thus development build
+var lib = require('bower-files')();
+  "overrides":{
+    "bootstrap" : {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    }
+  }
+});
+//tells function to run immediately by placing () after the call to require
+//when bower-files function is run it returns a collection of all the files relevant to the dependencies stored in our Bower manifest file bower.json
+
+var browserSync = require('browser-sync').create();
+//create function part of the browser-sync pkg, used to create our server
+
+
+
+
+//CSS BUILD
+gulp.task("cssBuild", function() {
+  gulp.src(['css/*.css'])
+  .pipe(concat('vendor.css'))
+  .pipe(gulp.dest('./build/css'))
+});
+
+//bowerJS TASK
+gulp.task('bowerJS', function(){
+  return gulp.src(lib.ext('js').files)
+  .pipe(concat('vendor.min.js'))
+  .pipe(uglify())
+  .pipe(gulp.dest('./build/js'));
+});
+//use gulp.src to pullin all JS files, and output one concat/minified file called vendor.js that we will load into our index.html.
+//filtering out only the .js files by using the ext method build into the bower-files
+// pass into ext ('js') as an argument
+//finally use gulp.dest method to put finished file into build/js directory
+
+//bowerCSS
+gulp.task('bowerCSS', function(){
+  return gulp.src(lib.ext('css').files)
+  .pipe(concat('vendor.css'))
+  .pipe(gulp.dest('./build/css'));
+});
+
+//bowerJS and bowerCSS combined
+gulp.task('bower', ['bowerJS', 'bowerCSS']);
+
+//SERVE TASK
+gulp.task('serve', function(){
+  browserSync.init({
+    server: {
+      baseDir: "./",
+      index: "index.html"
+    }
+  });
+  gulp.watch(['js/*.js'], ['jsBuild']);
+  gulp.watch(['bower.json'], ['bowerBuild']);
+});
+//calling browserSync.init() and passing in options telling browserSync to launch a local server from the directory currently in; telling it that the entry point (the place to start the app) is index.html
+//watch: files are being watched automatically as soon as we start server; it says to watch all of the files in the dev js folder and whenever they change, run jsBuild
+//watching bower manifest file for changes so that whenever we install or uninstall a frontend dependency our vendor files will be rebuilt and the browser reloaded with the bowerBuild task
+
+//WATCH TASK
+gulp.task('jsBuild', ['jsBrowserify', 'jshint'], function(){
+  browserSync.reload();
+});
+//lists an array of dependency tasks that need to be run whenever any of the js files change; wanna run linter and jsBrowserify and its dependencies; linter can be run at the same time as concat and browserify since they're mutually exclusive
+//once those are complete, use task function to call browserSync.reload()
 
 //CLEAN TASK
 gulp.task('clean', function(){
@@ -29,8 +101,11 @@ gulp.task('build', ['clean'], function(){
   } else {
     gulp.start('jsBrowserify')
   }
+  gulp.start('bower');
 });
 //will make a fresh folder of the newest files to work with
+//makes sure bower task runs automatically when we build
+//always want to include vendor files whether or not it's a production build
 
 //CONCAT TASK
 gulp.task('concatInterface', function(){
