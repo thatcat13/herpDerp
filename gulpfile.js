@@ -16,6 +16,9 @@ var buildProduction = utilities.env.production;
 //indicates which environment is being used (dev or production)
 //$ gulp build --production: sets var to true, thus production build
 //$gulp build: sets var to false, thus development build
+var sass = require('gulp-sass');
+var sourcemaps = require('gulp-sourcemaps');
+
 var lib = require('bower-files')({
   "overrides":{
     "bootstrap" : {
@@ -41,6 +44,16 @@ gulp.task("cssBuild", function() {
   gulp.src(['css/*.css'])
   .pipe(concat('vendor.css'))
   .pipe(gulp.dest('./build/css'))
+});
+
+//SASS
+gulp.task("cssBuild", function() {
+  gulp.src(['scss/*.scss'])
+  .pipe(sourcemaps.init())
+  .pipe(sass())
+  .pipe(sourcemaps.write())
+  .pipe(gulp.dest('./build/css'))
+  .pipe(browserSync.stream())
 });
 
 //bowerJS TASK

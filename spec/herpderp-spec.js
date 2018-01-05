@@ -17,6 +17,6 @@ describe('Calculator', function() {
   //beforeEach() assigns an instatiated object to the newRound variable; now this object will be made available to each spec inside the suite
 
   it('should test whether inputting numbers divisible by 15 returns herp-derp ', function() {
-    expect(newRound.herpDerp(15)).toEqual(0);
+    expect(newRound.herpDerp(15)).toBeNumber();
   });
 });
